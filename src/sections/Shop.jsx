@@ -11,8 +11,8 @@ import img4 from "../assets/Images/4.jpeg";
 import img5 from "../assets/Images/5.jpeg";
 import img6 from "../assets/Images/6.webp";
 import img7 from "../assets/Images/7.jpg";
-import img8 from "../assets/Images/8.jpeg";
-import img9 from "../assets/Images/9.webp";
+import img8 from "../assets/Images/8.png";
+import img9 from "../assets/Images/9.png";
 import img10 from "../assets/Images/10.png";
 
 const Section = styled(motion.section)`
@@ -218,11 +218,11 @@ const Shop = () => {
         <Product img={img4} title="Pants" />
         <Product img={img1} title="Saree" />
         <Product img={img2} title="Kids wear" />
+        <Product img={img9} title="Maxi Dress" />
         <Product img={img5} title="T-Shirts" />
         <Product img={img6} title="Night Gown" />
         <Product img={img7} title="Kurtis" />
-        <Product img={img8} title="Innerwears" />
-        <Product img={img9} title="Crop Top" />
+        <Product img={img8} title="Co-ord Set" />
         <Product img={img10} title="And Many More..." />
       </Right>
     </Section>
