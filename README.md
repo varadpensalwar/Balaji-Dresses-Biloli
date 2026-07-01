@@ -122,7 +122,7 @@ npm run dev
 or
 
 ```bash
-bun dev
+bun run dev
 ```
 
 ---
