@@ -26,11 +26,8 @@ The project showcases the Balaji Dresses collection with beautifully crafted sec
 
 # 📸 Preview
 
-> Add screenshots here
+<video src="https://github.com" autoplay loop muted playsinline width="100%"></video>
 
-| Home | About | Shop |
-|------|-------|------|
-| ![](screenshots/home.png) | ![](screenshots/about.png) | ![](screenshots/shop.png) |
 
 ---
 
