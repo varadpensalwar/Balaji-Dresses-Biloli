@@ -102,24 +102,12 @@ cd Balaji-Dresses-Biloli
 Install dependencies
 
 ```bash
-npm install
-```
-
-or
-
-```bash
 bun install
 ```
 
 ---
 
 # ▶️ Run Development Server
-
-```bash
-npm run dev
-```
-
-or
 
 ```bash
 bun run dev
@@ -130,13 +118,13 @@ bun run dev
 # 📦 Build for Production
 
 ```bash
-npm run build
+bun run build
 ```
 
 Preview production build
 
 ```bash
-npm run preview
+bun run preview
 ```
 
 ---
