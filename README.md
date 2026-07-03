@@ -202,22 +202,6 @@ Major libraries used in this project include:
 
 ---
 
-# 🎯 Future Improvements
-
-- Product filtering
-- Search functionality
-- Shopping cart
-- Wishlist
-- Authentication
-- Product details page
-- Backend integration
-- CMS integration
-- Online ordering
-- Payment gateway
-- Admin dashboard
-
----
-
 # 🤝 Contributing
 
 Contributions are welcome.
