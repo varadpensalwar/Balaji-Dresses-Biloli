@@ -5,9 +5,11 @@ import React, {  useLayoutEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import img1 from '../assets/Images/11.webp';
-import img2 from '../assets/Images/12.avif';
+import img2 from '../assets/Images/12.webp';
 import img3 from '../assets/Images/13.webp';
 import img4 from '../assets/Images/14.webp';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Section = styled.section`
   min-height: 100vh;
@@ -148,14 +150,21 @@ const Item = styled.div`
 const Photos = ({ img, name }) => {
   return (
     <Item>
-      <img width="400" height="600" src={img} alt={name} />
+      <img
+        width="400"
+        height="600"
+        src={img}
+        alt={name}
+        loading="lazy"
+        decoding="async"
+        fetchPriority="low"
+      />
       <h2>{name}</h2>
     </Item>
   );
 };
 
 const NewArrival = () => {
-   gsap.registerPlugin(ScrollTrigger);
   const ref = useRef(null);
 
   const ScrollingRef = useRef(null);

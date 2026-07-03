@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import MainVideo from "../assets/Walking Girl.mp4";
+import HeroPoster from "../assets/Images/hero-poster.webp";
 
 const VideoContainer = styled.section`
   width:100%;
@@ -9,9 +9,17 @@ const VideoContainer = styled.section`
   position:relative;
 
   video{
+    position:absolute;
+    inset:0;
     width:100%;
     height:100vh;
     object-fit:cover;
+    opacity:0;
+    transition:opacity 0.4s ease;
+
+    &.is-ready{
+      opacity:1;
+    }
 
     @media(max-width:48em){
       object-position:center 10%;
@@ -23,6 +31,24 @@ const VideoContainer = styled.section`
   }
 `;
 
+const PosterImage = styled.img`
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100vh;
+  object-fit:cover;
+  opacity:${props=>props.$isHidden ? 0 : 1};
+  transition:opacity 0.4s ease;
+
+  @media(max-width:48em){
+    object-position:center 10%;
+  }
+
+  @media(max-width:30em){
+    object-position:center 50%;
+  }
+`;
+
 const DarkOverlay = styled.div`
   position:absolute;
   inset:0;
@@ -30,7 +56,7 @@ const DarkOverlay = styled.div`
   background:${props=>`rgba(${props.theme.bodyRgba},0.6)`};
 `;
 
-const Title = styled(motion.div)`
+const Title = styled.div`
   position:absolute;
   inset:0;
   z-index:5;
@@ -57,6 +83,20 @@ const Title = styled(motion.div)`
     text-shadow:1px 1px 1px ${props=>props.theme.body};
     margin:0;
     line-height:1;
+    transform:translateY(0.35rem);
+    animation:reveal-title-word 0.6s ease forwards;
+  }
+
+  h1:nth-child(1){
+    animation-delay:0.4s;
+  }
+
+  h1:nth-child(2){
+    animation-delay:0.58s;
+  }
+
+  h1:nth-child(3){
+    animation-delay:0.76s;
   }
 
   h2{
@@ -66,6 +106,8 @@ const Title = styled(motion.div)`
     font-size:${props=>props.theme.fontlg};
     font-family:"Sirin Stencil";
     text-shadow:1px 1px 1px ${props=>props.theme.body};
+    transform:translateY(0.35rem);
+    animation:reveal-title-word 0.6s ease 0.94s forwards;
 
     @media(max-width:30em){
       font-size:${props=>props.theme.fontsm};
@@ -78,56 +120,65 @@ const Title = styled(motion.div)`
       gap:1rem;
     }
   }
-`;
 
-const container={
-  hidden:{opacity:0},
-  show:{
-    opacity:1,
-    transition:{
-      delayChildren:5,
-      staggerChildren:0.3
+  @keyframes reveal-title-word {
+    to {
+      transform:translateY(0);
     }
   }
-};
-
-const item={
-  hidden:{opacity:0},
-  show:{opacity:1}
-};
+`;
 
 export default function CoverVideo(){
+  const [isVideoReady, setIsVideoReady] = useState(false);
+
   return(
     <VideoContainer data-scroll>
+      <PosterImage
+        src={HeroPoster}
+        alt=""
+        aria-hidden="true"
+        width="1141"
+        height="2276"
+        fetchPriority="high"
+        decoding="async"
+        $isHidden={isVideoReady}
+      />
       <DarkOverlay/>
 
-      <Title variants={container} initial="hidden" animate="show">
+      <Title>
         <div
           className="title-wrapper"
           data-scroll
           data-scroll-speed="4"
         >
           {"Balaji Dresses Biloli".split(" ").map((word,index)=>(
-            <motion.h1
-              key={index}
-              variants={item}
-            >
+            <h1 key={index}>
               {word}
-            </motion.h1>
+            </h1>
           ))}
         </div>
 
-        <motion.h2
-          variants={item}
+        <h2
           data-scroll
           data-scroll-speed="2"
           data-scroll-delay="0.04"
         >
           Gandhi Chowk, Biloli, Maharashtra - 431710
-        </motion.h2>
+        </h2>
       </Title>
 
-      <video src={MainVideo} type="video/mp4" autoPlay muted loop />
+      <video
+        src={MainVideo}
+        type="video/mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster={HeroPoster}
+        className={isVideoReady ? "is-ready" : ""}
+        onCanPlay={() => setIsVideoReady(true)}
+      />
     </VideoContainer>
   );
 }

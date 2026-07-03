@@ -1,30 +1,78 @@
 import "locomotive-scroll/dist/locomotive-scroll.css";
 
-import { AnimatePresence } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import { LocomotiveScrollProvider } from "react-locomotive-scroll";
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
+import {
+  LocomotiveScrollProvider,
+  useLocomotiveScroll,
+} from "react-locomotive-scroll";
 import { ThemeProvider } from "styled-components";
 
 import Loader from "./components/Loader";
-import ScrollTriggerProxy from "./components/ScrollTriggerProxy";
-import About from "./sections/About";
-import Footer from "./sections/Footer";
 import Home from "./sections/Home";
-import Marquee from "./sections/Marquee";
-import NewArrival from "./sections/NewArrival";
-import Shop from "./sections/Shop";
 import GlobalStyles from "./styles/GlobalStyles";
 import { dark } from "./styles/Themes";
 
-function App() {
-  // useLocoScroll();
-  const containerRef = useRef(null);
-  const [Loaded, setLoaded] = useState(false);
+const ScrollTriggerProxy = lazy(() => import("./components/ScrollTriggerProxy"));
+const About = lazy(() => import("./sections/About"));
+const Shop = lazy(() => import("./sections/Shop"));
+const Marquee = lazy(() => import("./sections/Marquee"));
+const NewArrival = lazy(() => import("./sections/NewArrival"));
+const Footer = lazy(() => import("./sections/Footer"));
+
+const DeferredFallback = () => (
+  <>
+    <section aria-hidden="true" style={{ minHeight: "100vh" }} />
+    <section aria-hidden="true" style={{ minHeight: "100vh" }} />
+    <section aria-hidden="true" style={{ minHeight: "100vh" }} />
+    <section aria-hidden="true" style={{ minHeight: "100vh" }} />
+    <section aria-hidden="true" style={{ minHeight: "100vh" }} />
+  </>
+);
+
+const RefreshOnDeferredMount = ({ isReady }) => {
+  const { scroll } = useLocomotiveScroll();
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoaded(true);
-    }, 3000);
+    if (!isReady) return undefined;
+
+    const timeoutId = window.setTimeout(() => {
+      scroll?.update();
+      window.dispatchEvent(new Event("resize"));
+    }, 100);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [isReady, scroll]);
+
+  return null;
+};
+
+function App() {
+  const containerRef = useRef(null);
+  const [showLoader, setShowLoader] = useState(true);
+  const [mountLoader, setMountLoader] = useState(true);
+  const [renderDeferredSections, setRenderDeferredSections] = useState(false);
+
+  useEffect(() => {
+    const loaderTimeoutId = window.setTimeout(() => {
+      setShowLoader(false);
+    }, 1200);
+    const loaderUnmountTimeoutId = window.setTimeout(() => {
+      setMountLoader(false);
+    }, 1900);
+
+    const scheduleIdle =
+      window.requestIdleCallback ||
+      ((callback) => window.setTimeout(callback, 1200));
+    const cancelIdle = window.cancelIdleCallback || window.clearTimeout;
+    const idleId = scheduleIdle(() => {
+      setRenderDeferredSections(true);
+    });
+
+    return () => {
+      window.clearTimeout(loaderTimeoutId);
+      window.clearTimeout(loaderUnmountTimeoutId);
+      cancelIdle(idleId);
+    };
   }, []);
 
   return (
@@ -42,28 +90,25 @@ function App() {
               smooth: true,
             },
           }}
-          watch={
-            [
-              //..all the dependencies you want to watch to update the scroll.
-              //  Basicaly, you would want to watch page/location changes
-              //  For exemple, on Next.js you would want to watch properties like `router.asPath` (you may want to add more criterias if the instance should be update on locations with query parameters)
-            ]
-          }
+          watch={[renderDeferredSections]}
           containerRef={containerRef}
         >
-          <AnimatePresence>{Loaded ? null : <Loader />}</AnimatePresence>
+          {mountLoader ? <Loader isExiting={!showLoader} /> : null}
           <main className="App" data-scroll-container ref={containerRef}>
-            <ScrollTriggerProxy />
-            <AnimatePresence>
-              {Loaded ? null : <Loader />}
-
-              <Home key="home" />
-              <About key="about" />
-              <Shop key="Shop" />
-              <Marquee key="marquee" />
-              <NewArrival key="new arrival" />
-              <Footer key="Footer" />
-            </AnimatePresence>
+            <Home key="home" />
+            <RefreshOnDeferredMount isReady={renderDeferredSections} />
+            {renderDeferredSections ? (
+              <Suspense fallback={<DeferredFallback />}>
+                <ScrollTriggerProxy />
+                <About key="about" />
+                <Shop key="Shop" />
+                <Marquee key="marquee" />
+                <NewArrival key="new arrival" />
+                <Footer key="Footer" />
+              </Suspense>
+            ) : (
+              <DeferredFallback />
+            )}
           </main>
         </LocomotiveScrollProvider>
       </ThemeProvider>

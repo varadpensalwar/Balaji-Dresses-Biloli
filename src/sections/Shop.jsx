@@ -11,9 +11,11 @@ import img4 from "../assets/Images/4.jpeg";
 import img5 from "../assets/Images/5.jpeg";
 import img6 from "../assets/Images/6.webp";
 import img7 from "../assets/Images/7.jpg";
-import img8 from "../assets/Images/8.png";
-import img9 from "../assets/Images/9.png";
-import img10 from "../assets/Images/10.png";
+import img8 from "../assets/Images/8.webp";
+import img9 from "../assets/Images/9.webp";
+import img10 from "../assets/Images/10.webp";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Section = styled(motion.section)`
   min-height: 100vh;
@@ -135,14 +137,21 @@ const Product = ({ img, title = "" }) => {
       transition={{ duration: 0.5 }}
       viewport={{ once: false, amount: "all" }}
     >
-      <img width="400" height="600" src={img} alt={title} />
+      <img
+        width="400"
+        height="600"
+        src={img}
+        alt={title}
+        loading="lazy"
+        decoding="async"
+        fetchPriority="low"
+      />
       <h1>{title}</h1>
     </Item>
   );
 };
 
 const Shop = () => {
-  gsap.registerPlugin(ScrollTrigger);
   const ref = useRef(null);
 
   const Horizontalref = useRef(null);

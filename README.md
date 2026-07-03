@@ -104,7 +104,7 @@ bun install
 
 ---
 
-# ▶️ Run Development Server
+Run Development Server
 
 ```bash
 bun run dev
@@ -112,7 +112,7 @@ bun run dev
 
 ---
 
-# 📦 Build for Production
+Build for Production
 
 ```bash
 bun run build

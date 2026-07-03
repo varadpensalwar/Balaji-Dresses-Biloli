@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 import img1 from "../assets/Images/15.webp";
-import img2 from "../assets/Images/16.jpg";
-import img3 from "../assets/Images/17.jpg";
+import img2 from "../assets/Images/16.webp";
+import img3 from "../assets/Images/17.webp";
 
 const Section = styled.section`
   min-height: 100vh;
@@ -163,13 +163,24 @@ const About = () => {
       </Left>
 
       <Right>
-        <img width="400" height="600" src={img1} alt="About Us" />
+        <img
+          width="400"
+          height="600"
+          src={img1}
+          alt="About Us"
+          loading="lazy"
+          decoding="async"
+          fetchPriority="low"
+        />
         <img
           width="400"
           height="600"
           className="small-img-1"
           src={img2}
           alt="About Us"
+          loading="lazy"
+          decoding="async"
+          fetchPriority="low"
           data-scroll
           data-scroll-speed="5"
         />
@@ -179,6 +190,9 @@ const About = () => {
           className="small-img-2"
           src={img3}
           alt="About Us"
+          loading="lazy"
+          decoding="async"
+          fetchPriority="low"
           data-scroll
           data-scroll-speed="-2"
         />

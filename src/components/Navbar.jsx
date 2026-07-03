@@ -1,14 +1,14 @@
-import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { useLocomotiveScroll } from 'react-locomotive-scroll';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const NavContainer = styled(motion.div)`
+const NavContainer = styled.div`
   position: absolute;
   /* left: 50%; */
   top: ${(props) => (props.$click ? '0' : `-${props.theme.navHeight}`)};
-  transition: all 0.3s ease;
+  transform: translateY(-100%);
+  animation: reveal-nav 1.2s ease 0.6s forwards;
+  transition: top 0.3s ease;
   /* transform: translateX(-50%); */
   z-index: 6;
   width: 100vw;
@@ -21,6 +21,12 @@ const NavContainer = styled(motion.div)`
   @media (max-width: 40em) {
     top: ${(props) => (props.$click ? '0' : `calc(-50vh - 4rem)`)};
 
+  }
+
+  @keyframes reveal-nav {
+    to {
+      transform: translateY(0);
+    }
   }
 `;
 
@@ -62,7 +68,7 @@ const MenuBtn = styled.li`
   }
 `;
 
-const MenuItems = styled(motion.ul)`
+const MenuItems = styled.ul`
   position: relative;
   height: ${(props) => props.theme.navHeight};
   background-color: ${(props) => props.theme.body};
@@ -82,9 +88,28 @@ const MenuItems = styled(motion.ul)`
   }
 `;
 
-const Item = styled(motion.li)`
+const Item = styled.li`
   text-transform: uppercase;
   color: ${(props) => props.theme.text};
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1) translateY(-5px);
+  }
+
+  &:active {
+    transform: scale(0.9) translateY(0);
+  }
+
+  button {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    text-transform: inherit;
+  }
 
   @media (max-width: 40em) {
     flex-direction:column;
@@ -102,7 +127,7 @@ const Navbar = () => {
     let elem = document.querySelector(id);
     // console.log(elem);
     setClick(!click);
-    scroll.scrollTo(elem, {
+    scroll?.scrollTo(elem, {
       offset: '-100',
       duration: '2000',
       easing: [0.25, 0.0, 0.35, 1.0],
@@ -110,51 +135,25 @@ const Navbar = () => {
   };
 
   return (
-    <NavContainer
-      $click={click}
-      initial={{ y: `-100%` }}
-      animate={{ y: 0 }}
-      transition={{ duration: 2, delay: 5 /* 2 */ }}
-    >
-      <MenuItems
-        drag="y"
-        dragConstraints={{ top: 0, bottom: 70 }}
-        dragElastic={0.05}
-        dragSnapToOrigin
-      >
+    <NavContainer $click={click}>
+      <MenuItems>
         <MenuBtn onClick={() => setClick(!click)}>
           <span>MENU</span>
         </MenuBtn>
-        <Item
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9, y: 0 }}
-          onClick={() => handleScroll('#home')}
-        >
+        <Item onClick={() => handleScroll('#home')}>
           {' '}
-          <Link to="/">Home</Link>
+          <button type="button">Home</button>
         </Item>
-        <Item
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9, y: 0 }}
-          onClick={() => handleScroll('.about')}
-        >
-          <Link to="/">about</Link>
+        <Item onClick={() => handleScroll('.about')}>
+          <button type="button">about</button>
         </Item>
-        <Item
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9, y: 0 }}
-          onClick={() => handleScroll('#shop')}
-        >
-          <Link to="/">shop</Link>
+        <Item onClick={() => handleScroll('#shop')}>
+          <button type="button">shop</button>
         </Item>
 
-        <Item
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9, y: 0 }}
-          onClick={() => handleScroll('.new-arrival')}
-        >
+        <Item onClick={() => handleScroll('.new-arrival')}>
           {' '}
-          <Link to="/">new arrival</Link>
+          <button type="button">new arrival</button>
         </Item>
       </MenuItems>
     </NavContainer>

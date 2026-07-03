@@ -1,9 +1,22 @@
-import '@fontsource/sirin-stencil';
-import '@fontsource/kaushan-script';
-
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
+
+@font-face {
+    font-family: "Sirin Stencil";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src: url("/fonts/sirin-stencil-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Kaushan Script";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src: url("/fonts/kaushan-script-latin-400-normal.woff2") format("woff2");
+}
 
 ${'' /* *{
     outline: 1px solid red !important;
