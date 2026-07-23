@@ -237,7 +237,7 @@ GitHub: https://github.com/VaradPensalwar
 
 LinkedIn: https://linkedin.com/in/VaradPensalwar
 
-Portfolio: https://varadpensalwar.vercel.app/
+Portfolio: https://varadpensalwar.vercel.app
 
 ---
 
