@@ -231,13 +231,13 @@ git push origin feature-name
 
 # 👨‍💻 Author
 
-**Your Name**
+**Varad Pensalwar**
 
-GitHub: https://github.com/yourusername
+GitHub: https://github.com/VaradPensalwar
 
-LinkedIn: https://linkedin.com/in/yourusername
+LinkedIn: https://linkedin.com/in/VaradPensalwar
 
-Portfolio: https://yourportfolio.com
+Portfolio: https://varadpensalwar.vercel.app/
 
 ---
 
